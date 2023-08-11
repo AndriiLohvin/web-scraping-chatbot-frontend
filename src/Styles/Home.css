@@ -1,0 +1,80 @@
+/* section {
+  background-color: #eee;
+} */
+
+#chatmsg {
+  min-height: 700px;
+  max-height: 700px;
+  overflow: auto;
+}
+
+#prompt {
+  height: 100%;
+  max-height: 100vh;
+  overflow: auto;
+}
+
+.row {
+  justify-content: space-around;
+}
+
+.container {
+  width:100%;
+  max-width: 90% !important;
+  margin: 0px;
+}
+
+.card {
+  min-width: 150px !important;
+}
+
+.string {
+  white-space: pre-line;
+}
+
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #fccb90;
+  
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: -webkit-linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgba(213, 126, 235, 1));
+  
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  background: linear-gradient(to bottom right, rgba(252, 203, 144, 1), rgba(213, 126, 235, 1))
+}
+
+.card {
+  background-color: transparent !important;
+}
+
+.mask-custom {
+  background: rgba(24, 24, 16, .2) !important;
+  border-radius: 2em;
+  backdrop-filter: blur(15px);
+  border: 2px solid rgba(255, 255, 255, 0.05);
+  background-clip: padding-box;
+  box-shadow: 10px 10px 10px rgba(46, 54, 68, 0.03);
+}
+
+#formFileLg {
+  background: rgba(209 209 159 / 20%) !important;
+}
+
+#fileupload {
+  min-height: 200px;
+  max-height: 200px;
+  overflow: auto;
+}
+
+#filelist {
+  color: #4f4f4f;
+}
+
+::-webkit-scrollbar {
+  background-color: rgba(194, 134, 125, 0.6) /* specify your desired background color here */
+}
+
+
+::-webkit-scrollbar-thumb {
+  background-color: rgb(183, 128, 119)  ; /* specify your desired thumb background color here */
+}
