@@ -15,9 +15,24 @@ export default function Home(){
   ]);
   const [context, setContext] = useState("");
   const msgRef = useRef(null);
+  const promptRef = useRef(null);
   const handleonClickPromptButton = useCallback(() => {
     SetShowPrompt(!showPrompt);
   }, [showPrompt])
+
+  const handleonClickSetPromptButton = useCallback(() => {
+    const formdata = new FormData();
+    formdata.append("prompt", promptRef.current.value);
+    console.log(promptRef.current.value);
+    console.log(typeof(promptRef.current.value));
+    sendRequestsWithToken("set-prompt", {
+      body: formdata,
+    })
+      .then(response => response.json())
+      .catch((err) => {
+        alert("Failed for reason");
+      })
+  }, [promptRef])
 
   const chat = useRef(null);
 
@@ -39,6 +54,18 @@ export default function Home(){
         alert("Failed for reason");
       })
   }, [file, files])
+
+  const handleonClickClearDatabaseButton = useCallback(() => {
+    // msgRef.current.disabled = true;
+    sendRequestsWithToken("clear-database",{})
+      .then((response) => response.json())
+      .then(
+        setFiles([]),
+      )
+      .catch((err) => {
+        alert("Failed for reason");
+      })
+  }, [])
 
   const handleonClickSendButton = useCallback(() => {
     const formdata = new FormData();
@@ -92,6 +119,19 @@ export default function Home(){
       })
   }, [messages, msgRef, chat])
 
+  const handleonClickRemoveButton = useCallback((index) => {
+    console.log(files[index]);
+    const formdata = new FormData();
+    formdata.append("filename", files[index]);
+    sendRequestsWithToken("clear-database-by-metadata", {
+      body: formdata,
+    })
+      .then(response => response.json)
+      .then(
+        setFiles(files.slice(0, index).concat(files.slice(index + 1)))
+      )
+  }, [files])
+
   return(
     <section class="gradient-custom">
       <div class="container py-5">
@@ -109,29 +149,59 @@ export default function Home(){
                 {/* ------ file-upload-begin -------- */}
                 <div className='file-upload'>
                   <label for="formFileLg" class="form-label"><b>Please Choose Files</b></label>
-                  <div className='d-flex'>
+                  <div className='d-flex mb-3'>
                     <input class="form-control form-control-lg" id="formFileLg" type="file" onChange={handleonChangeChooseFile} />
                     <button type="button" class="btn mx-3 border" onClick={handleonClickAddButton}>Add</button>
+                    <button type="button" class="btn mx-3 border" onClick={handleonClickClearDatabaseButton}>Clear</button>
                   </div>
-                  <ul class="list-unstyled text-primary" id="fileupload">
-                    {
-                      files.map((file, index) => (
-                        <li class="d-flex justify-content-between mt-2" id="filelist" key={index}>{file}</li>
-                      ))
-                    }
-                  </ul>
+                  <div className='file-table text-center'>
+                    <table class="table table-hover table-striped">
+                      <thead>
+                        <tr>
+                          <th className='py-2'>File Name</th>
+                          <th className='py-2'>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {
+                          files.map((file, index) => (
+                            <tr key={index}>
+                              <td className='py-2'>
+                                  {file}
+                              </td>
+                              <td className='py-2'>
+                                <button type="button" class="btn border" onClick={() => handleonClickRemoveButton(index)}>Remove</button>
+                              </td>
+                            </tr>
+                          ))
+                        }
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
                 {/* ------ file-upload-end -------- */}
 
                 <button type="button" class="btn border mb-3" onClick={handleonClickPromptButton}>{showPrompt ? "Hide" : "Show"} Prompt</button>
+                <button type="button" class="btn border mb-3 mx-2" onClick={handleonClickSetPromptButton}>Set Prompt</button>
+                <div class="form-outline form-white mb-3 mask-custom" id="prompt-box">
+                  <label for="textAreaExample2" class="form-label" style={{paddingLeft: "15px", marginTop:"0.5rem", fontWeight: "bold"}}>Enter your prompt</label>
+                  <textarea
+                    class="form-control px-3"
+                    id="textAreaExample2"
+                    rows="4"
+                    ref={promptRef}
+                    placeholder="You will act as a legal science expert.
+                      Please research this context deeply answer questions based on  given context as well as your knowledge.
+                      If you can't find accurate answer, please reply similar answer to this question or you can give related information to given questions.
+                      Below is context you can refer to."
+                  >
+                  </textarea>
+                </div>
                   {showPrompt && (
                     <div class="text-start">
                       <h5>Prompt</h5>
                       <p>
-                        You will act as a legal science expert.
-                        Please research this context deeply answer questions based on  given context as well as your knowledge.
-                        If you can't find accurate answer, please reply similar answer to this question or you can give related information to given questions.
-                        This is context you can refer to.
+                        
                       </p>
                       <br />
                       <br />
