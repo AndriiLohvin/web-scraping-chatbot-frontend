@@ -11,9 +11,11 @@ export const authSlice = createSlice({
       state.isAuthorized = true;
       state.user = action.payload.user;
     },
-    
+    unAuthorized(state){
+      state.isAuthorized = false;
+    }
   }
 })
 
-export const { setAuthorized } = authSlice.actions
+export const { setAuthorized, unAuthorized } = authSlice.actions
 export default authSlice.reducer

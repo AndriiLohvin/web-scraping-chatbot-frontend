@@ -1,9 +1,9 @@
 import { useCallback, useState, useRef } from 'react'
-import '../Styles/Home.css'
+import '../Styles/Chatbot.css'
 import { sendRequestsWithToken } from '../Utils/Requests';
 
 
-export default function Home(){
+export default function Chatbot(){
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState();
   const [showPrompt, SetShowPrompt] = useState(false);
@@ -181,30 +181,24 @@ export default function Home(){
                 </div>
                 {/* ------ file-upload-end -------- */}
 
-                <button type="button" class="btn border mb-3" onClick={handleonClickPromptButton}>{showPrompt ? "Hide" : "Show"} Prompt</button>
+                <button type="button" class="btn border mb-3" onClick={handleonClickPromptButton}>{showPrompt ? "Hide" : "Show"} Context</button>
                 <button type="button" class="btn border mb-3 mx-2" onClick={handleonClickSetPromptButton}>Set Prompt</button>
-                <div class="form-outline form-white mb-3 mask-custom" id="prompt-box">
-                  <label for="textAreaExample2" class="form-label" style={{paddingLeft: "15px", marginTop:"0.5rem", fontWeight: "bold"}}>Enter your prompt</label>
-                  <textarea
-                    class="form-control px-3"
-                    id="textAreaExample2"
-                    rows="4"
-                    ref={promptRef}
-                    placeholder="You will act as a legal science expert.
-                      Please research this context deeply answer questions based on  given context as well as your knowledge.
-                      If you can't find accurate answer, please reply similar answer to this question or you can give related information to given questions.
-                      Below is context you can refer to."
-                  >
-                  </textarea>
-                </div>
+                  <div class="form-outline form-white mb-3 mask-custom" id="prompt-box">
+                    <label for="textAreaExample2" class="form-label" style={{paddingLeft: "15px", marginTop:"0.5rem", fontWeight: "bold"}}>Enter your prompt</label>
+                    <textarea
+                      class="form-control px-3"
+                      id="textAreaExample2"
+                      rows="4"
+                      ref={promptRef}
+                      placeholder="You will act as a legal science expert.
+                        Please research this context deeply answer questions based on  given context as well as your knowledge.
+                        If you can't find accurate answer, please reply similar answer to this question or you can give related information to given questions.
+                        Below is context you can refer to."
+                    >
+                    </textarea>
+                  </div>
                   {showPrompt && (
                     <div class="text-start">
-                      <h5>Prompt</h5>
-                      <p>
-                        
-                      </p>
-                      <br />
-                      <br />
                       <h5>Relative Context</h5>
                       <p class="string">
                         {context}
@@ -257,7 +251,7 @@ export default function Home(){
               
             </ul>
             <div class="form-outline form-white mb-3 mask-custom">
-              <textarea class="form-control p-4" id="textAreaExample2" rows="4" ref={msgRef}></textarea>
+              <textarea class="form-control m-3" id="textAreaExample2" rows="4" ref={msgRef}></textarea>
             </div>
             <button type="button" class="btn btn-light btn-rounded float-end" onClick={handleonClickSendButton}>Send</button>
           </div>

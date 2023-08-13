@@ -90,3 +90,7 @@
 #textAreaExample2{
   margin-top: -10px;
 }
+
+.App {
+  height: 100vh;
+}

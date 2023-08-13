@@ -1,7 +1,7 @@
 import '../Styles/SignIn.css'
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useNavigate } from 'react-router-dom';
-import { sendRequestsWithToken } from '../Utils/Requests';
+import { sendRequestsWithToken, setToken } from '../Utils/Requests';
 import { useDispatch } from 'react-redux';
 import { setAuthorized } from '../Slice/signSlice'
 
@@ -21,6 +21,7 @@ export default function SignIn(){
         console.log(result['username']);
         if(response.status === 200){
           alert("You Signed In Successfully");
+          setToken(result.access_token);
           dispatch(
             setAuthorized({user: result.user})
           );
@@ -31,7 +32,7 @@ export default function SignIn(){
       .catch((err) => {
         alert("Failed for reason");
       })
-  }, [])
+  }, [dispatch, navigator])
 
   return(
     <section className=" text-center text-lg-start"> 
@@ -45,14 +46,15 @@ export default function SignIn(){
             <div className="card-body py-5 px-md-5">
 
               <form onSubmit={handleSubmit}>
-                <div className="form-outline mb-4">
-                  <input type="email" id="form2Example1" className="form-control" name="email" />
-                  <label className="form-label" for="form2Example1" >Email address</label>
+                <div class="form-outline mb-4">
+                  <input type="email" id="form2Example1" className="form-control active" name="email" />
+                  <label class="form-label" for="form2Example1">Email address</label>
+                  <div class="form-notch"><div class="form-notch-leading" style={{width: "9px"}}></div><div class="form-notch-middle" style={{width: "85px"}}></div><div class="form-notch-trailing"></div></div>
                 </div>
-
-                <div className="form-outline mb-4">
-                  <input type="password" id="form2Example2" className="form-control" name="password" />
-                  <label className="form-label" for="form2Example2">Password</label>
+                <div class="form-outline mb-4">
+                  <input type="password" id="form2Example2" className="form-control active" name="password" />
+                  <label class="form-label" for="form2Example2">Password</label>
+                  <div class="form-notch"><div class="form-notch-leading" style={{width: "9px"}}></div><div class="form-notch-middle" style={{width: "60px"}}></div><div class="form-notch-trailing"></div></div>
                 </div>
 
                 <div className="row mb-4">

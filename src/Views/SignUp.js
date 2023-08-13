@@ -24,7 +24,7 @@ export default function SignUp(){
       .catch((err) => {
         alert("Failed for reason");
       })
-  }, [])
+  }, [navigator])
 
   return(
     <section className="text-center text-lg-start">
@@ -103,7 +103,7 @@ export default function SignUp(){
           </div>
 
           <div className="col-lg-6 mb-5 mb-lg-0">
-            <img src="../Images/004.jpg" className="w-100 rounded-4 shadow-4"
+            <img src="../Images/004.jpg" className="rounded-4 shadow-4"
               alt="" />
           </div>
         </div>

@@ -1,0 +1,8 @@
+
+.chatbot {
+  height: 80vh !important;
+}
+
+.chatbot .card-head {
+  margin-bottom: -25px;
+}
