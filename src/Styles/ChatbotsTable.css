@@ -1,8 +1,15 @@
 
 .chatbot {
-  height: 80vh !important;
+  height: 85vh !important;
 }
 
-.chatbot .card-head {
-  margin-bottom: -25px;
+
+.chatbot .card-body {
+  max-height: 70vh;
+  overflow: auto;
+  padding-top: 0px;
+}
+
+.chatbot .table {
+  border-collapse: unset;
 }

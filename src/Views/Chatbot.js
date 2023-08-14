@@ -1,9 +1,10 @@
 import { useCallback, useState, useRef } from 'react'
 import '../Styles/Chatbot.css'
 import { sendRequestsWithToken } from '../Utils/Requests';
-
+import { useParams } from 'react-router-dom';
 
 export default function Chatbot(){
+  const { chatbotId, chatlogId } = useParams();
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState();
   const [showPrompt, SetShowPrompt] = useState(false);
@@ -43,6 +44,7 @@ export default function Chatbot(){
   const handleonClickAddButton = useCallback(() => {
     const formdata = new FormData();
     formdata.append("file", file);
+    formdata.append("bot_id", chatbotId);
     sendRequestsWithToken("add-training-file",{
       body: formdata,
     })
@@ -73,6 +75,7 @@ export default function Chatbot(){
     const msg = msgRef.current.value;
     msgRef.current.value = "";
     formdata.append("msg", msg);
+    formdata.append("bot_id", chatbotId);
     setMessages([
       ...messages,
       {content:msg, role:"user"},

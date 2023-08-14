@@ -27,6 +27,25 @@ const ChatbotsTable = () => {
     [data]
   );
 
+  const handleRemoveChatbot = useCallback(
+    (botId, index) => {
+      console.log(botId, index);
+      if (window.confirm("Are you sure want to delete?")) {
+        const formdata = new FormData();
+        formdata.append("id", botId);
+        sendRequestsWithToken("remove-chatbot",{
+          body: formdata,
+        })
+          .then(response => response.json())
+          .then(result => {
+            setData(data.slice(0, index).concat(data.slice(index + 1)));
+            setCurrentIndex(-1);
+          })
+      }
+    },
+    [data]
+  );
+
   const addPage = useCallback(
     (link) => {
       setData([
@@ -49,13 +68,13 @@ const ChatbotsTable = () => {
     []
   );
 
-  // useEffect(() => {
-  //   sendRequestsWithToken("chatbot/find-all-chatbots")
-  //     .then((response) => response.json())
-  //     // .then((result) =>
-  //     //   setData(JSON.parse(result).map((d) => convert_db_data(d)))
-  //     // );
-  // }, []);
+  useEffect(() => {
+    sendRequestsWithToken("find-all-chatbots")
+      .then((response) => response.json())
+      .then((result) =>
+        setData(result)
+      );
+  }, []);
 
 
   return(
@@ -63,17 +82,19 @@ const ChatbotsTable = () => {
       <div class="container py-5">
             <div class="chatbot card mask-custom">
               <div class="card-head" >
-                <h4 class="font-weight-bold text-center text-white mt-3">Your chatbots</h4>
+                <h2 class="font-weight-bold text-center text-white mt-3">Your chatbots</h2>
                 <button type="button" class="btn btn-light float-start btn-rounded mx-3" onClick={handleAdd}>Add New Bot</button>
+                <table class="table table-hover table-striped px-4"> 
+                  <thead>
+                    <tr>
+                      <th class="col-4 fs-5">Bot Name</th>
+                      <th class="col-8 fs-5">Actions</th>
+                    </tr>
+                  </thead>
+                </table>
               </div>
               <div class="card-body">
                 <table class="table table-hover table-striped">
-                  <thead>
-                    <tr>
-                      <th class="col-4">Bot Name</th>
-                      <th class="col-8">Actions</th>
-                    </tr>
-                  </thead>
                   <tbody>
                     {data.length === 0 && (
                       <tr>
@@ -85,7 +106,7 @@ const ChatbotsTable = () => {
                     {data.map((bot, index) => (
                       <tr>
                         <td>
-                          <Link to={`/home/${bot._id}/${uuidv4().toString()}`}>
+                          <Link to={`/chatbot/${bot._id}/${uuidv4().toString()}`}>
                             <h3>{bot.name}</h3>
                           </Link>
                         </td>
@@ -104,7 +125,7 @@ const ChatbotsTable = () => {
                           </button>
                           <button
                             class="btn btn-danger mx-2"
-                            // onClick={() => handleRemoveChatbot(bot._id, index)}
+                            onClick={() => handleRemoveChatbot(bot._id, index)}
                           >
                             Remove
                           </button>
