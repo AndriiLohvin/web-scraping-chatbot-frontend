@@ -48,17 +48,18 @@ export const EditPagesModal = ({ show, setShow, id, AddPage = () => {} }) => {
       .then((result) => setContent(result));
   }, []);
 
-  // useEffect(() => {
-  //   if (id !== "") {
-  //     sendRequestsWithToken("find-pages-by-id", {
-  //       body: JSON.stringify({
-  //         id,
-  //       }),
-  //     })
-  //       .then((response) => response.json())
-  //       .then((result) => setPages(result));
-  //   }
-  // }, [id]);
+  useEffect(() => {
+    setContent("");
+    if (id !== "") {
+      const formdata = new FormData();
+      formdata.append("id", id);
+      sendRequestsWithToken("find-pages-by-id", {
+        body: formdata
+      })
+        .then((response) => response.json())
+        .then((result) => setPages(result));
+    }
+  }, [id]);
 
   return (
     <Modal show={show} onHide={handleClose} className="modal-xl">

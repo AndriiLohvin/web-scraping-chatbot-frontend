@@ -31,7 +31,7 @@ export default function Chatbot(){
     })
       .then(response => response.json())
       .catch((err) => {
-        alert("Failed for reason");
+        alert("Failed for reason!");
       })
   }, [promptRef])
 
@@ -42,6 +42,7 @@ export default function Chatbot(){
   }, [])
 
   const handleonClickAddButton = useCallback(() => {
+    msgRef.current.disabled = true;
     const formdata = new FormData();
     formdata.append("file", file);
     formdata.append("bot_id", chatbotId);
@@ -49,13 +50,15 @@ export default function Chatbot(){
       body: formdata,
     })
       .then((response) => response.json())
-      .then(
-        setFiles([...files, file.name]),
-      )
+      .then((result) => {
+        console.log("file", file.name);
+        setFiles([...files, file.name]);
+        msgRef.current.disabled = false;
+      })
       .catch((err) => {
         alert("Failed for reason");
       })
-  }, [file, files])
+  }, [file, files, chatbotId, msgRef])
 
   const handleonClickClearDatabaseButton = useCallback(() => {
     // msgRef.current.disabled = true;
@@ -120,19 +123,23 @@ export default function Chatbot(){
             console.error('Error fetching streaming data:', error);
           });
       })
-  }, [messages, msgRef, chat])
+  }, [messages, msgRef, chat, chatbotId])
 
   const handleonClickRemoveButton = useCallback((index) => {
     console.log(files[index]);
     const formdata = new FormData();
     formdata.append("filename", files[index]);
+    formdata.append("id", chatbotId);
     sendRequestsWithToken("clear-database-by-metadata", {
       body: formdata,
     })
-      .then(response => response.json)
+      .then(response => response.json())
       .then(
         setFiles(files.slice(0, index).concat(files.slice(index + 1)))
       )
+      .catch(err => {
+        alert("Error");
+      })
   }, [files])
 
   return(
@@ -254,7 +261,7 @@ export default function Chatbot(){
               
             </ul>
             <div class="form-outline form-white mb-3 mask-custom">
-              <textarea class="form-control m-3" id="textAreaExample2" rows="4" ref={msgRef}></textarea>
+              <textarea class="form-control p-4" id="textAreaExample2" rows="4" ref={msgRef}></textarea>
             </div>
             <button type="button" class="btn btn-light btn-rounded float-end" onClick={handleonClickSendButton}>Send</button>
           </div>

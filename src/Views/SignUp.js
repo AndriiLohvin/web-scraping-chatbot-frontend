@@ -41,31 +41,36 @@ export default function SignUp(){
                   <div className="row">
                     <div className="col-md-6 mb-4">
                       <div className="form-outline">
-                        <input type="text" id="form3Example1" className="form-control" name="firstname" />
+                        <input type="text" id="form3Example1" className="form-control active" name="firstname" />
                         <label className="form-label" for="form3Example1">First name</label>
+                        <div class="form-notch"><div class="form-notch-leading" style={{width: "9px"}}></div><div class="form-notch-middle" style={{width: "60px"}}></div><div class="form-notch-trailing"></div></div>
                       </div>
                     </div>
                     <div className="col-md-6 mb-4">
                       <div className="form-outline">
-                        <input type="text" id="form3Example2" className="form-control" name="lastname" />
+                        <input type="text" id="form3Example2" className="form-control active" name="lastname" />
                         <label className="form-label" for="form3Example2">Last name</label>
+                        <div class="form-notch"><div class="form-notch-leading" style={{width: "9px"}}></div><div class="form-notch-middle" style={{width: "60px"}}></div><div class="form-notch-trailing"></div></div>
                       </div>
                     </div>
                   </div>
 
                   <div className="form-outline mb-4">
-                    <input type="email" id="form3Example3" className="form-control" name="email" />
+                    <input type="email" id="form3Example3" className="form-control active" name="email" />
                     <label className="form-label" for="form3Example3">Email address</label>
+                    <div class="form-notch"><div class="form-notch-leading" style={{width: "9px"}}></div><div class="form-notch-middle" style={{width: "60px"}}></div><div class="form-notch-trailing"></div></div>
                   </div>
 
                   <div className="form-outline mb-4">
-                    <input type="password" id="form3Example4" className="form-control" name="password" />
+                    <input type="password" id="form3Example4" className="form-control active" name="password" />
                     <label className="form-label" for="form3Example4">Password</label>
+                    <div class="form-notch"><div class="form-notch-leading" style={{width: "9px"}}></div><div class="form-notch-middle" style={{width: "60px"}}></div><div class="form-notch-trailing"></div></div>
                   </div>
 
                   <div className="form-outline mb-4">
-                    <input type="confirm_password" id="form3Example5" className="form-control" name="confirm_password" />
+                    <input type="confirm_password" id="form3Example5" className="form-control active" name="confirm_password" />
                     <label className="form-label" for="form3Example5">Confirm Password</label>
+                    <div class="form-notch"><div class="form-notch-leading" style={{width: "9px"}}></div><div class="form-notch-middle" style={{width: "60px"}}></div><div class="form-notch-trailing"></div></div>
                   </div>
 
                   <div className="form-check d-flex justify-content-center mb-4">
