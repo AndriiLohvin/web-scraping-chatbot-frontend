@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
 import '../Styles/Chatbot.css'
-import { isAuthorized, setAuthorized, unAuthorized } from "../Slice/signSlice";
+import {  unAuthorized } from "../Slice/signSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useCallback } from "react";
 import { clearToken } from "../Utils/Requests";
+import React from 'react';
 
 const Navbar = () => {
   const auth = useSelector((state) => state.auth);

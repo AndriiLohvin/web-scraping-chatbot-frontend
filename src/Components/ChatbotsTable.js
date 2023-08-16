@@ -19,6 +19,7 @@ const ChatbotsTable = () => {
     setAddNewBotModalShow(true);
   }, []);
 
+
   const AddNewData = useCallback(
     (newBot) => {
       console.log(data);
@@ -87,8 +88,8 @@ const ChatbotsTable = () => {
                 <table class="table table-hover table-striped px-4"> 
                   <thead>
                     <tr>
-                      <th class="col-4 fs-5">Bot Name</th>
-                      <th class="col-8 fs-5">Actions</th>
+                      <th class="col-6 fs-5">Bot Name</th>
+                      <th class="col-6 fs-5">Actions</th>
                     </tr>
                   </thead>
                 </table>
@@ -98,19 +99,19 @@ const ChatbotsTable = () => {
                   <tbody>
                     {data.length === 0 && (
                       <tr>
-                        <td colspan="3">
+                        <td colspan="2">
                           <h3>You don't have any bot created</h3>
                         </td>
                       </tr>
                     )}
                     {data.map((bot, index) => (
                       <tr>
-                        <td>
+                        <td style={{width: "50%"}}>
                           <Link to={`/chatbot/${bot._id}/${uuidv4().toString()}`}>
                             <h3>{bot.name}</h3>
                           </Link>
                         </td>
-                        <td>
+                        <td style={{width: "50%"}}>
                           <button
                             class="btn btn-primary"
                             onClick={() => handleEditPages(bot._id, index)}

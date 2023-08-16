@@ -94,3 +94,56 @@
 .App {
   height: 100vh;
 }
+
+
+.vue-pincode__numbers {
+  margin: auto;
+}
+
+.vue-pincode__numbers button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 50%;
+  color: #27058d;
+  background: #fff;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  font-size: 24px;
+  outline: none;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,.5);
+  transition: all .2s linear;
+  box-shadow: 7px 7px 15px #27058d36,-4px -4px 13px #fff,inset 4px 4px 8px #d1d9e659,inset -8px -8px 8px #ffffff4d !important;
+  transform: translateY(0px) !important;
+}
+
+.far {
+  padding-right: 10px;
+}
+
+.vue-pincode__numbers td {
+  padding:10px;
+}
+
+.vue-pincode__numbers button:hover {
+  box-shadow: 4px 2px 18px #27058d36, -4px -4px 13px #fff, inset 6px 6px 16px #d1d9e6cc, inset -8px -8px 8px #fff3 !important;
+  transform: translateY(0px) !important;
+}
+
+.vue-pincode__numbers button:active {
+  box-shadow: 4px 2px 18px #27058d36, -4px -4px 13px #fff, inset 6px 6px 16px #d1d9e6cc, inset -8px -8px 8px #fff3 I !important;
+  transform: translateY(2px) !important;
+}
+.shadow {
+  --tw-shadow: 0 1px 3px 0 rgba(0, 0, 0, .1), 0 1px 2px -1px rgba(0, 0, 0, .1);
+  --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+}
+
+
+.password {
+  margin-top:100px;
+}

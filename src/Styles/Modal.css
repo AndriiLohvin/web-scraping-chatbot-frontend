@@ -1,0 +1,27 @@
+.my-select {
+  border: 1px solid #ccc;
+  padding: 5px;
+  border-radius: 0px;
+  
+}
+
+.my-select option {
+  background-color: #f1f1f1;
+  padding: 10px;
+}
+
+.accordion-item {
+  border-color: black;
+}
+
+
+.alert {
+  border:1;
+  color: "cornflowerblue"
+}
+
+.no-arrows::-webkit-inner-spin-button,
+.no-arrows::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
