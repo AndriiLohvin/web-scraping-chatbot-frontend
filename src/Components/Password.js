@@ -2,21 +2,21 @@ import '../Styles/Chatbot.css'
 
 
 
-export const Password = ({enterPassword, resetPassword, currentPassword}) => {
+export const Password = ({enterPassword, resetPassword, currentPassword, wrongPassword}) => {
 
 
   const convert_to_array = (str) => {
     const array = Array.from(str);
-    for(let i = array.length; i <= 6; i ++) array.append("@");
+    for(let i = array.length + 1; i <= 6; i ++) array.push("@");
     return array;
   }
 
   return (
     <div class="password">
-      <div class="vue-pincode__fields mb-4">
+      <div className={`vue-pincode__fields mb-4 ${wrongPassword && "annim"}`}>
         {
           convert_to_array(currentPassword).map((num, index) => (
-            (num === '@') ? (<i class="far fa-circle"></i>) : (<i class="fas fa-circle"></i>)
+            (num === '@') ? (<i class="far fa-circle text-white"></i>) : (<i class="fas fa-circle text-white"></i>)
           ))
         }
       </div>

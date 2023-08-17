@@ -19,10 +19,25 @@ export const getAuthorized = () => {
 
 export function sendRequestsWithToken(url, config){
   const token = getToken();
+  console.log(url);
   return fetch(getFullUrl(url), {
     method: "POST",
     headers: {
       Authorization: `Bearer ${token}`,
+    },
+    ...config,
+  })
+}
+
+
+export function sendRequestsWithToken_as_JSON(url, config){
+  const token = getToken();
+  console.log(url);
+  return fetch(getFullUrl(url), {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${token}`,
+      "Content-Type": "application/json",
     },
     ...config,
   })

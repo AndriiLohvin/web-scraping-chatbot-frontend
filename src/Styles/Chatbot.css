@@ -125,6 +125,9 @@
   padding-right: 10px;
 }
 
+.fas {
+  padding-right: 10px;
+}
 .vue-pincode__numbers td {
   padding:10px;
 }
@@ -146,4 +149,24 @@
 
 .password {
   margin-top:100px;
+}
+
+.annim {
+  position: relative;
+  animation-name: le;
+  animation-duration: 100ms;
+  animation-timing-function: linear;
+  animation-iteration-count: 5;
+}
+@keyframes le {
+  0% {
+    left: 0;
+  }
+  50% {
+    transform: translateX(5px);
+  }
+  100% {
+    left: 10px;
+    transform: translateX(-5px);
+  }
 }

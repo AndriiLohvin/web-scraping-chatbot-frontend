@@ -16,12 +16,26 @@
 
 
 .alert {
-  border:1;
-  color: "cornflowerblue"
+  border: 1 !important;
+  color: cornflowerblue;
 }
 
-.no-arrows::-webkit-inner-spin-button,
-.no-arrows::-webkit-outer-spin-button {
+.no-spinner::-webkit-outer-spin-button,
+.no-spinner::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
+}
+
+.modal-body {
+  height: 75vh;
+  max-height: 75vh;
+  overflow: auto;
+}
+
+.box {
+  border: 1px solid;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  border-radius: 1em;
 }
