@@ -87,7 +87,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
               <b>Bot Name</b> is required.
             </p>
           </FormGroup>
-          <FormGroup class="mb-4">
+          {/* <FormGroup class="mb-4">
             <FormLabel class="px-2 text-dark fw-bold">Description </FormLabel>
             <FormControl type="px-0 text" placeholder="This is my general assistant" name="description" style={{borderRadius: "1em"}}/>
             <p class="px-2 mb-0" style={{color:"blue"}}>
@@ -194,7 +194,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                 </Accordion.Body>
               </Accordion.Item>
             </Accordion>
-          </div>
+          </div> */}
         </Modal.Body>
         <Modal.Footer>
           <Button variant="secondary" onClick={handleClose}>

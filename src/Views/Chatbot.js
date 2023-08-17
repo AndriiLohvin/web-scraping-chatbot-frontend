@@ -5,6 +5,8 @@ import { useParams } from 'react-router-dom';
 import { Password } from '../Components/Password';
 
 export default function Chatbot(){
+  const [currentPassword, setCurrentPassword] = useState('');
+
   const { chatbotId, chatlogId } = useParams();
   const [files, setFiles] = useState([]);
   const [file, setFile] = useState();
@@ -16,8 +18,7 @@ export default function Chatbot(){
     }
   ]);
   const [context, setContext] = useState("");
-  const [currentPassword, setCurrentPassword] = useState('');
-
+  
   const chat = useRef(null);
   const msgRef = useRef(null);
   const promptRef = useRef(null);
@@ -149,7 +150,8 @@ export default function Chatbot(){
   }, [files, chatbotId])
 
   const handleEnterPassword = useCallback((num) => {
-    setCurrentPassword(currentPassword + num);
+    console.log(currentPassword.length)
+    if(currentPassword.length < 6) setCurrentPassword(currentPassword + num);
   }, [currentPassword])
 
   const handleResetPassword = useCallback(() => {
@@ -160,6 +162,7 @@ export default function Chatbot(){
     <Password
       enterPassword={handleEnterPassword}
       resetPassword={handleResetPassword}
+      currentPassword={currentPassword}
     />
     // <section class="gradient-custom">
     //   <div class="container py-5">
