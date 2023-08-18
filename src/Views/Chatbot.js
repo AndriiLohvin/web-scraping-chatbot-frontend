@@ -3,6 +3,7 @@ import '../Styles/Chatbot.css'
 import { sendRequestsWithToken, sendRequestsWithToken_as_JSON } from '../Utils/Requests';
 import { useParams } from 'react-router-dom';
 import { Password } from '../Components/Password';
+import { Chatbox } from '../Components/Chatbox';
 import { compileString } from 'sass';
 
 export default function Chatbot(){
@@ -23,6 +24,7 @@ export default function Chatbot(){
     }
   ]);
   const [context, setContext] = useState("");
+  // const [metadata, setMetadata] = useState([]);
   
   const chat = useRef(null);
   const msgRef = useRef(null);
@@ -62,7 +64,7 @@ export default function Chatbot(){
     })
       .then((response) => response.json())
       .then((result) => {
-        console.log("file", file.name);
+        // console.log("file", file.name);
         setFiles([...files, file.name]);
         msgRef.current.disabled = false;
       })
@@ -86,10 +88,12 @@ export default function Chatbot(){
   const handleonClickSendButton = useCallback(() => {
     const formdata = new FormData();
     let answer = "";
+    let metadata = [];
     const msg = msgRef.current.value;
     msgRef.current.value = "";
     formdata.append("msg", msg);
     formdata.append("bot_id", chatbotId);
+    formdata.append("log_id", chatlogId);
     setMessages([
       ...messages,
       {content:msg, role:"user"},
@@ -100,7 +104,9 @@ export default function Chatbot(){
     })
       .then(response => response.json())
       .then(result => {
-        setContext(result);
+        setContext(result.context);
+        metadata = result.metadata;
+        // console.log(result.metadata);
       })
       .then(() => {
         sendRequestsWithToken("user-question", {
@@ -114,6 +120,18 @@ export default function Chatbot(){
         
                 if (done) {
                   console.log('Streaming completed.');
+                  if(metadata.length !== 0) {
+                    answer += '\n\nSource:\n'
+                    metadata.forEach((data) => {
+                      console.log(data);
+                      answer += data + '\n'
+                    });
+                    setMessages([
+                      ...messages,
+                      {content:msg, role:"user"},
+                      {content:answer, role:"assistant"}
+                    ]);
+                  }
                   return;
                 }
                 const data = decoder.decode(value);
@@ -174,6 +192,7 @@ export default function Chatbot(){
     sendRequestsWithToken_as_JSON("find-chatbot-by-id", {
       body: JSON.stringify({
         id: chatbotId,
+        log_id: chatlogId,
       }),
     })
       .then((response) => response.json())
@@ -184,12 +203,27 @@ export default function Chatbot(){
             role: "assistant"
           }
         ]);
-        console.log("pass", result.password);
         if(result.password.length === 6) setBotAuthorized(true);
         setBot(result);
         setFiles(result.files);
+        // console.log("here2");
+        if(result.conversationSaver){
+          sendRequestsWithToken_as_JSON ("find_messages_by_id", {
+            body: JSON.stringify({
+              logId: result.lastChatLogId,
+            }),
+          })
+            .then((response) => response.json())
+            .then((rlt) =>
+              setMessages([
+                { content: result.welcomeMessage, role: "assistant" },
+                ...rlt,
+              ])
+            );
+        }
+        
       })
-  }, [chatbotId, bot.welcomeMessage]);
+  }, [chatbotId, chatlogId]);
 
   return(
     <>
@@ -272,53 +306,13 @@ export default function Chatbot(){
               </div>
             </div>
 
-            <div className="col-md-7 col-lg-7 col-xl-7">
-              <ul className="list-unstyled " ref={chat} id="chatmsg">
-                {
-                  messages.map((msg, index) => (
-                    msg.role === "user" ? (
-                      <li className="d-flex justify-content-between mb-4" key = {index}>
-                        <img src="./Images/user.png" alt="avatar"
-                          className="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60" />
-                        <div className="card mask-custom">
-                          <div className="card-header d-flex justify-content-between p-3">
-                            <p className="text-light fw-bold mb-0">You</p>
-                            {/* <p className="text-muted small mb-0"><i className="far fa-clock"></i> 12 mins ago</p> */}
-                          </div>
-                          <div className="card-body text-start">
-                            <p className="text-light mb-0 string">
-                              {msg.content}
-                            </p>
-                          </div>
-                        </div>
-                      </li>
-                    ) : (
-                      <li className="d-flex justify-content-between mb-4" key = {index}>
-                        <div className="card mask-custom">
-                          <div className="card-header d-flex justify-content-between p-3">
-                            <p className="text-light fw-bold mb-0">Chatbot</p>
-                            {/* <p className="text-muted small mb-0"><i className="far fa-clock"></i> 12 mins ago</p> */}
-                          </div>
-                          <div className="card-body text-start">
-                            <p className="text-light mb-0 string">
-                              {msg.content}
-                            </p>
-                          </div>
-                        </div>
-                        <img src="./Images/bot.webp" alt="avatar"
-                          className="rounded-circle d-flex align-self-start me-3 shadow-1-strong" width="60" />
-                      </li>
-                    )
-                  ))
-                }
-                
-              </ul>
-              <div className="form-outline form-white mb-3 mask-custom">
-                <textarea className="form-control p-4" id="textAreaExample2" rows="4" ref={msgRef}></textarea>
-              </div>
-              <button type="button" className="btn btn-light btn-rounded float-end" onClick={handleonClickSendButton}>Send</button>
-            </div>
-
+            <Chatbox 
+              messages = {messages}
+              msgRef = {msgRef}
+              chat = {chat}
+              submit = {handleonClickSendButton}
+              isChatLog = {true}
+            />      
           </div>
 
         </div>

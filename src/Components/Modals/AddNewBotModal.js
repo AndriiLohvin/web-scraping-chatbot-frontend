@@ -31,8 +31,15 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
   const [selectedFormat, setSelectedFormat] = useState('FAQ');
   const [selectedStyle, setSelectedStyle] = useState('Friendly');
   const [selectedTone, setSelectedTone] = useState('Friendly');
-  const [selectedlength, setSelectedlength] = useState('50 words');
-
+  const [selectedLength, setSelectedLength] = useState('50 words');
+  const [selectedContextBehavior, setSelectedContextBehavior] = useState('file');
+  const [behaviorPrompt, setBehaviorPrompt] = useState('');
+  const [fighterPrompt, setFighterPrompt] = useState('');
+  const [appendedPrompt, setAppendedPrompt] = useState('');
+  const [creativity, setCreativity] = useState(0.3);
+  const [conversationSaver, setConversationSaver] = useState(false);
+  const [sourceDiscloser, setSourceDiscloser] = useState(false);
+  const [HTMLInterpreter, setHTMLInterpreter] = useState(false);
   // ------------Form Datas End-----------------------
 
 
@@ -72,8 +79,16 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
             tone: selectedTone,
             format: selectedFormat,
             style: selectedStyle,
-            length: selectedlength,
+            length: selectedLength,
             password: inputs.join(''),
+            contextBehavior: selectedContextBehavior,
+            behaviorPrompt: behaviorPrompt,
+            fighterPrompt: fighterPrompt,
+            appendedPrompt: appendedPrompt,
+            creativity: creativity,
+            conversationSaver: conversationSaver,
+            sourceDiscloser: sourceDiscloser,
+            HTMLInterpreter: HTMLInterpreter,
           }),
         })
           .then((response) => response.json())
@@ -98,8 +113,16 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
       selectedTone,
       selectedFormat,
       selectedStyle,
-      selectedlength,
+      selectedLength,
       inputs,
+      selectedContextBehavior,
+      behaviorPrompt,
+      fighterPrompt,
+      appendedPrompt,
+      creativity,
+      conversationSaver,
+      sourceDiscloser,
+      HTMLInterpreter,
     ]);
 
   const handleOnKeyDown = useCallback((ev, index) => {
@@ -165,6 +188,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                 <Form.Select
                   size='lg'
                   style={{borderRadius: "1em"}}
+                  value={selectedModel}
                   onChange={(ev) => setSelectedModel(ev.target.value)}
                 >
                   <option value="gpt-4"> GPT 4|4K context</option>
@@ -191,6 +215,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                   className="mb-3"
                   size='lg'
                   style={{borderRadius: "1em"}}
+                  value={selectedLanguage}
                   onChange={(ev) => setSelectedLanguage(ev.target.value)}
                 >
                   {
@@ -204,6 +229,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                   className="mb-3"
                   size='lg'
                   style={{borderRadius: "1em"}}
+                  value={selectedTone}
                   onChange={(ev) => setSelectedTone(ev.target.value)}
                 >
                   {
@@ -217,6 +243,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                   className="mb-3"
                   size='lg'
                   style={{borderRadius: "1em"}}
+                  value={selectedStyle}
                   onChange={(ev) => setSelectedStyle(ev.target.value)}
                 >
                   {
@@ -230,6 +257,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                   className="mb-3"
                   size='lg'
                   style={{borderRadius: "1em"}}
+                  value={selectedFormat}
                   onChange={(ev) => setSelectedFormat(ev.target.value)}
                 >
                   {
@@ -243,7 +271,8 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                   className="mb-3"
                   size='lg'
                   style={{borderRadius: "1em"}}
-                  onChange={(ev) => setSelectedlength(ev.target.value)}
+                  value={selectedLength}
+                  onChange={(ev) => setSelectedLength(ev.target.value)}
                 >
                   {
                     response_lengths.map((response_length, index) => (
@@ -272,6 +301,7 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                     as="textarea"
                     rows={3}
                     placeholder='Hello friend! How can I help you today?'
+                    value={welcomeMessage}
                     onChange={(ev) => setWelcomeMessage(ev.target.value)}
                   />
                 </Form.Group>
@@ -330,11 +360,12 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                     id="Context behavior"
                     size='lg'
                     style={{borderRadius: "1em"}}
-                    onChange={(ev) => setSelectedModel(ev.target.value)}
+                    value={selectedContextBehavior}
+                    onChange={(ev) => setSelectedContextBehavior(ev.target.value)}
                   >
-                    <option value="1"> Get information from the training data, and if necessary, respond with 'I don’t know'.</option>
-                    <option value="2"> Get information from the training data and ChatGPT knowledge.</option>
-                    <option value="3"> The chatbot will disregard the training data and respond similarly to the public ChatGPT.</option>
+                    <option value="file"> Get information only from the training data, and if necessary, respond with 'I don’t know'.</option>
+                    <option value="both"> Get information from the training data and ChatGPT knowledge.</option>
+                    <option value="gpt"> The chatbot will disregard the training data and respond similarly to the public ChatGPT.</option>
                   </Form.Select>
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
                     The context behavior determines how the training data you provide will be utilized. It specifies the way in which the chatbot understands and responds to user inputs based on the given context.
@@ -348,7 +379,8 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                       as="textarea"
                       rows={3}
                       placeholder='Example: You are helpful assistant'
-                      onChange={(ev) => setWelcomeMessage(ev.target.value)}
+                      value={behaviorPrompt}
+                      onChange={(ev) => setBehaviorPrompt(ev.target.value)}
                     />
                   </Form.Group>
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
@@ -363,7 +395,8 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                       as="textarea"
                       rows={3}
                       placeholder='If my message contains X, Y, Z do the following...'
-                      onChange={(ev) => setWelcomeMessage(ev.target.value)}
+                      value={fighterPrompt}
+                      onChange={(ev) => setFighterPrompt(ev.target.value)}
                     />
                   </Form.Group>
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
@@ -378,7 +411,8 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                       as="textarea"
                       rows={3}
                       placeholder='Be brief'
-                      onChange={(ev) => setWelcomeMessage(ev.target.value)}
+                      value={appendedPrompt}
+                      onChange={(ev) => setAppendedPrompt(ev.target.value)}
                     />
                   </Form.Group>
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
@@ -387,13 +421,15 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                 </div>
 
                 <div className='box'>
-                  <Form.Label class="px-2 text-dark fw-bold" style={{fontSize:"13px"}}>Creativity (0.9) - Recommended value : 0.3</Form.Label>
+                  <Form.Label class="px-2 text-dark fw-bold" style={{fontSize:"13px"}}>Creativity ({creativity}) - Recommended value : 0.3</Form.Label>
                   <MDBRange
-                    defaultValue={0}
+                    defaultValue={0.3}
                     min='0'
-                    max='10'
-                    step='1'
+                    max='1'
+                    step='0.1'
                     id='customRange3'
+                    value={creativity}
+                    onChange={(ev) => setCreativity(ev.target.value)}
                   />
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
                     Creativity can be adjusted by changing the temperature value. A higher temperature value, such as 0.7, can result in more unpredictable and diverse outputs, while a lower temperature value, such as 0.2, can produce a more precise and specific output.
@@ -406,6 +442,8 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                     type="switch"
                     id="custom-switch"
                     label="disabled"
+                    checked={conversationSaver}
+                    onChange={(ev) => setConversationSaver(ev.target.checked)}
                   />
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
                     The Conversation Saver feature ensures that your current conversation remains open, even if you refresh the page, navigate to a different page within the same website, or visit another website using the same chatbot.
@@ -417,6 +455,8 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                     type="switch"
                     id="custom-switch"
                     label="disabled"
+                    checked={sourceDiscloser}
+                    onChange={(ev) => setSourceDiscloser(ev.target.checked)}
                   />
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
                     The Source Exposure feature will display the URLs from which the AI obtained the information.
@@ -428,6 +468,8 @@ export const AddNewBotModal = ({ show, setShow, handleAdd }) => {
                     type="switch"
                     id="custom-switch"
                     label="disabled"
+                    checked={HTMLInterpreter}
+                    onChange={(ev) => setHTMLInterpreter(ev.target.checked)}
                   />
                   <p class="px-2 mb-0" style={{color:"blue", fontSize:"13px"}}>
                     With the HTML Interpreter feature, you may sacrifice the advantage of visually appealing formatting for the AI output, such as titles, tables, lists, and so on. However, it allows the execution of HTML code, which can be particularly useful when generating images or graphics using HTML.

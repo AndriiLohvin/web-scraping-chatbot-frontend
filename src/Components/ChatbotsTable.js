@@ -70,10 +70,12 @@ const ChatbotsTable = () => {
   );
 
   useEffect(() => {
-    sendRequestsWithToken("find-all-chatbots")
+    sendRequestsWithToken("find-all-chatbots", {})
       .then((response) => response.json())
-      .then((result) =>
-        setData(result)
+      .then((result) => {
+          console.log(result)
+          setData(result);
+        }
       );
   }, []);
 
@@ -107,7 +109,7 @@ const ChatbotsTable = () => {
                     {data.map((bot, index) => (
                       <tr>
                         <td style={{width: "50%"}}>
-                          <Link to={`/chatbot/${bot._id}/${uuidv4().toString()}`}>
+                          <Link to={`/chatbot/${bot._id}/${ (bot.conversationSaver && bot.lastChatLogId !== "") ? bot.lastChatLogId : uuidv4().toString()}`}>
                             <h3>{bot.name}</h3>
                           </Link>
                         </td>

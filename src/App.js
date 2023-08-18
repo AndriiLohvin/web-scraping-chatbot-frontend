@@ -3,6 +3,7 @@ import SignIn from "./Views/SignIn.js"
 import SignUp from "./Views/SignUp.js"
 import Chatbot from "./Views/Chatbot.js"
 import Dashboard from "./Views/Dashboard.js"
+import ChatLog from "./Components/ChatLog.js"
 // import { Test } from "./Views/Test.js"
 import './App.css';
 import Navbar from './Components/Nabvar.js'
@@ -14,6 +15,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> } />
+          <Route exact path="/chatlog" element={ <PrivateRoute> <ChatLog /> </PrivateRoute> } />
           <Route path="signin" element={ <SignIn /> } />  
           <Route path="signup" element={ <SignUp /> } /> 
           {/* <Route path="test" element={ <Test /> } />  */}

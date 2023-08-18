@@ -31,7 +31,7 @@ const Navbar = () => {
               </li>
               <li class="nav-item d-inline">
                 <Link
-                  to="/"
+                  to="/chatlog"
                   class="nav-link link-dark px-3 active"
                   aria-current="page"
                 >
