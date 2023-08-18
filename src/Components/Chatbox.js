@@ -1,6 +1,6 @@
 import '../Styles/Chatbot.css'
 
-export const Chatbox = ({messages, msgRef = null, chat = null, submit = ()=> {}, isChatLog}) => {
+export const Chatbox = ({name, messages, msgRef = null, chat = null, submit = ()=> {}, isChatLog}) => {
   return (
     <div className="col-md-7 col-lg-7 col-xl-7  m-auto">
       <ul className="list-unstyled " ref={chat} id="chatmsg">
@@ -26,7 +26,7 @@ export const Chatbox = ({messages, msgRef = null, chat = null, submit = ()=> {},
               <li className="d-flex justify-content-between mb-4" key = {index}>
                 <div className="card mask-custom">
                   <div className="card-header d-flex justify-content-between p-3">
-                    <p className="text-light fw-bold mb-0">Chatbot</p>
+                    <p className="text-light fw-bold mb-0">{name}</p>
                     {/* <p className="text-muted small mb-0"><i className="far fa-clock"></i> 12 mins ago</p> */}
                   </div>
                   <div className="card-body text-start">

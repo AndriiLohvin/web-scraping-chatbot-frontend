@@ -307,6 +307,7 @@ export default function Chatbot(){
             </div>
 
             <Chatbox 
+              name = {bot.name}
               messages = {messages}
               msgRef = {msgRef}
               chat = {chat}

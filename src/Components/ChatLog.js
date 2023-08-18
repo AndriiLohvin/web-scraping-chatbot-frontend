@@ -11,7 +11,9 @@ const ChatLogList = () => {
   useEffect(() => {
     sendRequestsWithToken_as_JSON("find-chatlogs")
       .then((response) => response.json())
-      .then((result) => setChatLogs(result));
+      .then((result) => {
+        setChatLogs(result);
+      });
   }, []);
   const fetchMessages = useCallback((logId) => {
     sendRequestsWithToken_as_JSON ("find_messages_by_id", {
@@ -55,14 +57,14 @@ const ChatLogList = () => {
                   onClick={() => handleSelect(index)}
                 >
                   {chatLog.botName} -{" "}
-                  {moment(new Date(chatLog.createdDate.$date)).format("HH:mm")}
+                  {moment(new Date(chatLog.createdDate)).format("HH:mm")}
                 </span>
               ))}
             </div>
           </div>
           <div className="col-9">
             <Chatbox
-              // name={selectedIndex !== -1 ? chatLogs[selectedIndex].botName : ""}
+              name={selectedIndex !== -1 ? chatLogs[selectedIndex].botName : ""}
               messages={messages}
               isChatLog = {false}
             />
