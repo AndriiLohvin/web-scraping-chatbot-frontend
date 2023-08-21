@@ -67,14 +67,14 @@ const ChatLogList = () => {
               {chatLogs.map((chatLog, index) => (
                 <div >
                   <div
-                    class={`d-flex justify-content-center mask-custom py-3 m-auto d-inline ${
+                    class={`d-flex justify-content-center mask-custom py-2 mb-2 d-inline-flex ${
                       selectedIndex === index && "active"
                     }`}
                     id="list-home-list"
                     data-mdb-toggle="list"
                     role="tab"
                     aria-controls="list-home"
-                    style={{padding: "100px"}}
+                    style={{width: "400px", maxWidth: "280px"}}
                     onClick={() => handleSelect(index)}
                   >
                     {chatLog.botName} -{" "}
