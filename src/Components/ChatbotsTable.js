@@ -7,8 +7,12 @@ import { Link } from "react-router-dom";
 import { v4 as uuidv4 } from "uuid";
 import { sendRequestsWithToken } from '../Utils/Requests';
 // import { EditFilesModal } from "../Modals/EditFilesModal";
+import { setAuthorized } from '../Slice/signSlice';
+import { setToken } from '../Utils/Requests';
+import { useDispatch } from 'react-redux';
 
 const ChatbotsTable = () => {
+  const dispatch = useDispatch();
   const [data, setData] = useState([]);
   const [addNewBotModalShow, setAddNewBotModalShow] = useState(false);
   const [editPagesModalShow, setEditPagesModalShow] = useState(false);
@@ -70,14 +74,76 @@ const ChatbotsTable = () => {
   );
 
   useEffect(() => {
-    sendRequestsWithToken("find-all-chatbots", {})
-      .then((response) => response.json())
-      .then((result) => {
-          console.log(result)
-          setData(result);
-        }
-      );
-  }, []);
+    
+      const formdata = new FormData();
+      formdata.append("firstname", "test");
+      formdata.append("lastname", "test");
+      formdata.append("email", "test@gmail.com");
+      formdata.append("password", "123123");
+      formdata.append("confirm_password", "123123");
+      sendRequestsWithToken('auth/signup', {
+        body: formdata
+      })
+        .then((response) => {
+          const result = response.json();
+          console.log(result);
+          console.log("here");
+          if(response.status === 200){
+            // alert("You Signed Up Successfully");
+            // navigator('/signin');
+          }
+          // else alert("Unknown Error");
+        })
+        .then(result => {
+          console.log("here1");
+          const formdata1 = new FormData();
+          formdata1.append("email", "test@gmail.com");
+          formdata1.append("password", "123123");
+          sendRequestsWithToken("auth/signin", {
+            body: formdata1,
+          })
+            .then(async (response) => {
+              const result = await response.json();
+              console.log(result['username']);
+              if(response.status === 200){
+                console.log(result.access_token);
+                // alert("You Signed In Successfully");
+                setToken(result.access_token);
+                dispatch(
+                  setAuthorized({user: result.user})
+                );
+                // navigator("/");
+              }
+              else alert("Unknown Error");
+            })
+            .then((result) => {
+              sendRequestsWithToken("find-all-chatbots", {})
+              .then((response) => response.json())
+              .then((result) => {
+                  console.log(result)
+                  setData(result);
+                }
+              );
+            })
+            .catch((err) => {
+              alert("Sign In Failed for reason");
+            })
+        })
+        .catch((err) => {
+          alert("Failed for reason");
+        })
+
+
+      
+
+    // sendRequestsWithToken("find-all-chatbots", {})
+    //   .then((response) => response.json())
+    //   .then((result) => {
+    //       console.log(result)
+    //       setData(result);
+    //     }
+    //   );
+  }, [dispatch]);
 
 
   return(

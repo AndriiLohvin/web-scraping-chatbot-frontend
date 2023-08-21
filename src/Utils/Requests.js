@@ -12,14 +12,15 @@ export const getToken = () => localStorage.getItem(token_key);
 export const clearToken = () => localStorage.clear(token_key)
 
 export const getAuthorized = () => {
-  const token = getToken();
-  if (token !== null && token !== undefined) return true;
-  return false;
+  // const token = getToken();
+  // if (token !== null && token !== undefined) return true;
+  // return false;
+  return true;
 };
 
 export function sendRequestsWithToken(url, config){
   const token = getToken();
-  // console.log(url);
+  console.log(url);
   return fetch(getFullUrl(url), {
     method: "POST",
     headers: {
