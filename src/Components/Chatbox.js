@@ -1,6 +1,20 @@
 import '../Styles/Chatbot.css'
+import { useCallback } from 'react';
 
-export const Chatbox = ({name, messages, msgRef = null, chat = null, submit = ()=> {}, isChatLog}) => {
+
+export const Chatbox = ({name, messages, msgRef = null, chat = null, submit = ()=> {}, isChatLog, sendMessage}) => {
+
+  const handleInput = useCallback(
+    (ev) => {
+      if (ev.key === "Enter" && !ev.shiftKey) {
+        sendMessage(ev.target.value);
+        // Clear the input field after adding the message
+        ev.target.value = "";
+      }
+    },
+    [sendMessage]
+  );
+
   return (
     <div className="col-md-7 col-lg-7 col-xl-7  m-auto">
       <ul className="list-unstyled " ref={chat} id="chatmsg">
@@ -45,7 +59,13 @@ export const Chatbox = ({name, messages, msgRef = null, chat = null, submit = ()
       {isChatLog && (
         <>
           <div className="form-outline form-white mb-3 mask-custom">
-            <textarea className="form-control p-4" id="textAreaExample2" rows="4" ref={msgRef}></textarea>
+            <textarea
+              className="form-control p-4"
+              id="textAreaExample2"
+              rows="4"
+              ref={msgRef}
+              onKeyUp={handleInput}
+            ></textarea>
           </div>
           <button type="button" className="btn btn-light btn-rounded float-end" onClick={submit}>Send</button>
         </>

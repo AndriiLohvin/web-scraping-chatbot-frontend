@@ -85,12 +85,13 @@ export default function Chatbot(){
       })
   }, [])
 
-  const handleonClickSendButton = useCallback(() => {
+ 
+  const sendMessage = useCallback((msg) => {
     const formdata = new FormData();
     let answer = "";
     let metadata = [];
-    const msg = msgRef.current.value;
-    msgRef.current.value = "";
+    // const msg = msgRef.current.value;
+    // msgRef.current.value = "";
     formdata.append("msg", msg);
     formdata.append("bot_id", chatbotId);
     formdata.append("log_id", chatlogId);
@@ -153,6 +154,13 @@ export default function Chatbot(){
           });
       })
   }, [messages, msgRef, chat, chatbotId])
+
+  const handleonClickSendButton = useCallback(() => {
+    sendMessage(msgRef.current.value);
+    msgRef.current.value = "";
+    // alert("asdf");
+  }, [msgRef, sendMessage]);
+
 
   const handleonClickRemoveButton = useCallback((index) => {
     
@@ -313,6 +321,7 @@ export default function Chatbot(){
               chat = {chat}
               submit = {handleonClickSendButton}
               isChatLog = {true}
+              sendMessage = {sendMessage}
             />      
           </div>
 
