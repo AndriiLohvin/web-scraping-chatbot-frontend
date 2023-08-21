@@ -1,7 +1,7 @@
 import '../Styles/Chatbot.css'
 import React, { useCallback, useEffect, useState } from "react";
 import moment from "moment";
-import { sendRequestsWithToken_as_JSON } from "../Utils/Requests";
+import { sendRequestsWithToken_as_JSON, sendRequestsWithToken } from "../Utils/Requests";
 import { Chatbox } from "./Chatbox";
 
 const ChatLogList = () => {
@@ -36,6 +36,25 @@ const ChatLogList = () => {
     },
     [chatLogs]
   );
+
+  const handleRemoveChatlog = useCallback(
+    (index) => {
+      if (window.confirm("Are you sure want to delete?")) {
+        const formdata = new FormData();
+        formdata.append("logId", chatLogs[index].logId);
+        sendRequestsWithToken("remove-chatlog",{
+          body: formdata,
+        })
+          .then(response => response.json())
+          .then(result => {
+            setChatLogs(chatLogs.slice(0, index).concat(chatLogs.slice(index + 1)));
+            // setCurrentIndex(-1);
+          })
+      }
+    },
+    [chatLogs]
+  );
+
   return (
     <section className="gradient-custom">
       <div className="container py-5">
@@ -46,20 +65,30 @@ const ChatLogList = () => {
             <div class="chatlog list-unstyled" id="list-tab" role="tablist">
               {chatLogs.length === 0 && <h2>No Chat Logs</h2>}
               {chatLogs.map((chatLog, index) => (
-                <span
-                  class={`d-flex justify-content-center mask-custom py-3 ${
-                    selectedIndex === index && "active"
-                  }`}
-                  id="list-home-list"
-                  data-mdb-toggle="list"
-                  role="tab"
-                  aria-controls="list-home"
-                  onClick={() => handleSelect(index)}
-                >
-                  {chatLog.botName} -{" "}
-                  {moment(new Date(chatLog.createdDate)).format("HH:mm")}
-                </span>
-              ))}
+                <div >
+                  <div
+                    class={`d-flex justify-content-center mask-custom py-3 m-auto d-inline ${
+                      selectedIndex === index && "active"
+                    }`}
+                    id="list-home-list"
+                    data-mdb-toggle="list"
+                    role="tab"
+                    aria-controls="list-home"
+                    style={{padding: "100px"}}
+                    onClick={() => handleSelect(index)}
+                  >
+                    {chatLog.botName} -{" "}
+                    {moment(new Date(chatLog.createdDate)).format("HH:mm")}
+                  </div>
+                  <button
+                    class="btn btn-danger mx-2"
+                    style={{verticalAlign: "middle"}}
+                    onClick={() => handleRemoveChatlog(index)}
+                  >
+                    Remove
+                  </button>
+                </div>
+                ))}
             </div>
           </div>
           <div className="col-9">
