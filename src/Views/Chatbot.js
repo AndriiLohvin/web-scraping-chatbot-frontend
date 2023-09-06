@@ -4,7 +4,6 @@ import { sendRequestsWithToken, sendRequestsWithToken_as_JSON } from '../Utils/R
 import { useParams } from 'react-router-dom';
 import { Password } from '../Components/Password';
 import { Chatbox } from '../Components/Chatbox';
-import { compileString } from 'sass';
 
 export default function Chatbot(){
   const [currentPassword, setCurrentPassword] = useState('');
@@ -153,7 +152,7 @@ export default function Chatbot(){
             console.error('Error fetching streaming data:', error);
           });
       })
-  }, [messages, msgRef, chat, chatbotId])
+  }, [messages, chat, chatbotId, chatlogId])
 
   const handleonClickSendButton = useCallback(() => {
     sendMessage(msgRef.current.value);
@@ -189,7 +188,7 @@ export default function Chatbot(){
       setWrongPassword(true);
       setCurrentPassword('');
     }
-  }, [currentPassword, bot.password, wrongPassword])
+  }, [currentPassword, bot.password])
 
   const handleResetPassword = useCallback((ev) => {
     // ev.preventDefault();

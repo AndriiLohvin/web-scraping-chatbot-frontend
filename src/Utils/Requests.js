@@ -12,10 +12,10 @@ export const getToken = () => localStorage.getItem(token_key);
 export const clearToken = () => localStorage.clear(token_key)
 
 export const getAuthorized = () => {
-  // const token = getToken();
-  // if (token !== null && token !== undefined) return true;
-  // return false;
-  return true;
+  const token = getToken();
+  if (token !== null && token !== undefined) return true;
+  return false;
+  // return true;
 };
 
 export function sendRequestsWithToken(url, config){

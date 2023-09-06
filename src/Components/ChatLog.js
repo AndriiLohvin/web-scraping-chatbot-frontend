@@ -9,12 +9,13 @@ const ChatLogList = () => {
   const [chatLogs, setChatLogs] = useState([]);
   const [selectedIndex, setSelectedIndex] = useState(-1);
   useEffect(() => {
-    sendRequestsWithToken_as_JSON("find-chatlogs")
+    sendRequestsWithToken_as_JSON("find-chatlogs", {})
       .then((response) => response.json())
       .then((result) => {
         setChatLogs(result);
       });
   }, []);
+  
   const fetchMessages = useCallback((logId) => {
     sendRequestsWithToken_as_JSON ("find_messages_by_id", {
       body: JSON.stringify({
@@ -29,12 +30,13 @@ const ChatLogList = () => {
         ])
       );
   }, []);
+
   const handleSelect = useCallback(
     (index) => {
       setSelectedIndex(index);
       fetchMessages(chatLogs[index].logId);
     },
-    [chatLogs]
+    [chatLogs, fetchMessages]
   );
 
   const handleRemoveChatlog = useCallback(

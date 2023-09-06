@@ -14,15 +14,15 @@ function App() {
     <div className="App gradient-custom">
         <Navbar />
         <Routes>
-          {/* <Route path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> } /> */}
-          <Route path="/" element={ <Dashboard /> } />
-          {/* <Route exact path="/chatlog" element={ <PrivateRoute> <ChatLog /> </PrivateRoute> } /> */}
-          <Route exact path="/chatlog" element={ <ChatLog /> } />
+          <Route path="/" element={ <PrivateRoute> <Dashboard /> </PrivateRoute> } />
+          {/* <Route path="/" element={ <Dashboard /> } /> */}
+          <Route exact path="/chatlog" element={ <PrivateRoute> <ChatLog /> </PrivateRoute> } />
+          {/* <Route exact path="/chatlog" element={ <ChatLog /> } /> */}
           <Route path="signin" element={ <SignIn /> } />  
           <Route path="signup" element={ <SignUp /> } /> 
           {/* <Route path="test" element={ <Test /> } />  */}
-          {/* <Route path="chatbot/:chatbotId/:chatlogId" element={ <PrivateRoute> <Chatbot /> </PrivateRoute> } />   */}
-          <Route path="chatbot/:chatbotId/:chatlogId" element={ <Chatbot /> } />  
+          <Route path="chatbot/:chatbotId/:chatlogId" element={ <PrivateRoute> <Chatbot /> </PrivateRoute> } />  
+          {/* <Route path="chatbot/:chatbotId/:chatlogId" element={ <Chatbot /> } />   */}
         </Routes>          
     </div>
   );
